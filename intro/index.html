@@ -1,23 +1,57 @@
 <!DOCTYPE html>
+	<head>
+		<style type="text/css">
+			.capitaine div{
+				width: 50px;
+			}
+			.capitaine .tete{
+				background: red;
+				height: 50px;
+			}
+			.capitaine .barbe{
+				background: grey;
+				-webkit-transition: all 1s;
+				-moz-transition: all 1s;
+				-o-transition: all 1s;
+				-ms-transition: all 1s;
+				transition: all 1s;
+			}
+			.capitaine .finBarbe{
+				background: black;
+				height: 20px;
+			}
+		</style>
+	</head>
 	<body>
 		<h1>Hey !</h1>
 
-		<div id="ici">
-		</div>
+		<p>
+			Age <span id="age"></span>
+		</p>
+		<div id="look"></div>
 
 
 		<!-- Etape 2  -->
-		<div>
+		<!-- <div>
 			<label for='age'>Age</label>
 			<input id='age'/>
-		</div>
+		</div> -->
 
 
 		<script src="../lib/jquery-1.8.3.js"></script>
 		<script src="../lib/underscore.js"></script>
 		<script src="../lib/backbone.js"></script>
+		<script src="sources.js"></script>
+		<script>
+			var monCapitaine = new Capitaine({age:10});
+			monCapitaine.set('age', 15);
+
+			var superView = new MaView({
+				model: monCapitaine,
+				el: '#age',
+				template: '<p><input/><span id="age"></span></p>'
+			});
+			superView.render();
+		</script>
 	</body>
 </html>
-
-
-

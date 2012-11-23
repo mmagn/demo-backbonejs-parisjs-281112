@@ -20,5 +20,5 @@ var AwesomeLook = Backbone.View.extend({
 var awesomeLook = new AwesomeLook({
 	model: monCapitaine,
 	el: '#look',
-	template: '<div class="capitaine"><div class="barbe"></div><div class="finBarbe"></div></div>'
+	template: '<div class="capitaine"><div class="barbe"><div class="finBarbe"></div></div></div>'
 });

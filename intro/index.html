@@ -2,8 +2,9 @@
 	<body>
 		<h1>Hey !</h1>
 
-		<div id="ici">
-		</div>
+		<p>
+			Age <span id="age"></span>
+		</p>
 
 
 		<!-- Etape 2  -->
@@ -16,8 +17,17 @@
 		<script src="../lib/jquery-1.8.3.js"></script>
 		<script src="../lib/underscore.js"></script>
 		<script src="../lib/backbone.js"></script>
+		<script src="sources.js"></script>
+		<script>
+			var monCapitaine = new Capitaine({age:10});
+			monCapitaine.set('age', 15);
+
+			var superView = new MaView({
+				model: monCapitaine,
+				el: '#age',
+				template: '<p><input/><span id="age"></span></p>'
+			});
+			superView.render();
+		</script>
 	</body>
 </html>
-
-
-

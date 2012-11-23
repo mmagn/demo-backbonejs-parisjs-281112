@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Jasmine Spec Runner</title>
+  <meta charset="utf-8" />
+
+  <script type="text/javascript">
+      //object global
+      LG = {
+          culture: "fr-FR"
+      };
+
+      LG.smartScroller = {
+          scrollSiBesoin: function () { }
+      };
+
+      //fichier google
+      _gaq = { push: function () { } }
+  </script>
+
+  <link rel="shortcut icon" type="image/png" href="../../lib/jasmine-1.2.0/jasmine_favicon.png" />
+  <link rel="stylesheet" type="text/css" href="../../lib/jasmine-1.2.0/jasmine.css" />
+
+  <script type="text/javascript" src="../../lib/jasmine-1.2.0/jasmine.js"></script>
+  <script type="text/javascript" src="../../lib/jasmine-1.2.0/jasmine-html.js"></script>
+  
+  <!-- include spec here... -->
+  <script type="text/javascript" src="etape1Spec.js"></script>
+  
+  <!-- include sources here... -->
+  <script type="text/javascript" src="../../lib/jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="../../lib/underscore.js"></script>
+  <script type="text/javascript" src="../../lib/backbone.js"></script>
+  <script type="text/javascript" src="../sources.js"></script>
+
+
+  <script type="text/javascript">
+      (function () {
+          var jasmineEnv = jasmine.getEnv();
+          jasmineEnv.updateInterval = 1000;
+
+          var htmlReporter = new jasmine.HtmlReporter();
+
+          jasmineEnv.addReporter(htmlReporter);
+
+          jasmineEnv.specFilter = function (spec) {
+              return htmlReporter.specFilter(spec);
+          };
+
+          var currentWindowOnload = window.onload;
+
+          window.onload = function () {
+              if (currentWindowOnload) {
+                  currentWindowOnload();
+              }
+              execJasmine();
+          };
+
+          function execJasmine() {
+              jasmineEnv.execute();
+          }
+
+      })();
+  </script>
+
+</head>
+
+<body>
+</body>
+</html>

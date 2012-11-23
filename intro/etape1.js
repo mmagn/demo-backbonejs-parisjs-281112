@@ -1,17 +1,18 @@
-var MonModel = Backbone.Model.extend({});
-
-var superModel = new MonModel({age:10});
-superModel.set('age', 15);
+var Capitaine = Backbone.Model.extend({});
 
 var MaView = Backbone.View.extend({
 
 	render: function(){
-		$('#ici').html('Age: ' + this.model.get('age')); // Bahh cracra, difficilement testable
+		$('#age').html(this.model.get('age')); // Bahh cracra, difficilement testable
 	}
 
 });
 
-var superView = new MaView({model: superModel});
+//////////////////////////////////////////////////////////////////
+
+var monCapitaine = new Capitaine({age:10});
+
+var superView = new MaView({model: monCapitaine});
 superView.render();
 
 //////////////////////////////////////////////////////////////////
@@ -19,17 +20,17 @@ superView.render();
 var MaView = Backbone.View.extend({
 
 	render: function(){
-		this.$el.html('Age: ' + this.model.get('age')); // Plus propre, on fait réf à el -> facilement testable
+		this.$el.html(this.model.get('age')); // Plus propre, on fait réf à el -> facilement testable
 		return this;
 	}
 
 });
 
-var superView = new MaView({model: superModel, el: '#ici'}); // On passe la référence à l'init
+var superView = new MaView({model: monCapitaine, el: '#age'}); // On passe la référence à l'init
 
 //////////////////////////////////////////////////////////////////
 
-superModel.set('age', 36); // si on modifie le model rien ne se passe sur la vue
+monCapitaine.set('age', 36); // si on modifie le model rien ne se passe sur la vue
 
 //////////////////////////////////////////////////////////////////
 
@@ -41,7 +42,7 @@ var MaView = Backbone.View.extend({
 	},
 
 	render: function(){
-		this.$el.html(_.template('Age: <%= age %>', this.model.toJSON()));
+		this.$el.html(_.template('<%= age %>', this.model.toJSON()));
 		return this;
 	}
 
@@ -49,7 +50,28 @@ var MaView = Backbone.View.extend({
 
 //////////////////////////////////////////////////////////////////
 
-superModel.set('age', 36); // maintenant la vue est liée aux évènements du model
+monCapitaine.set('age', 88); // maintenant la vue est liée aux évènements du model
+
+//////////////////////////////////////////////////////////////////
+
+var MaView = Backbone.View.extend({
+
+	initialize: function(){
+		this.model.on('change', this.render, this); // on bind la fonction de rendu sur les changements du model
+	},
+
+	render: function(){
+		this.$el.html(_.template(this.options.template, this.model.toJSON()));
+		return this;
+	}
+
+});
+
+var superView = new MaView({
+	model: monCapitaine,
+	el: '#age',
+	template: '<p><input/><span id="age"></span></p>'
+});
 
 //////////////////////////////////////////////////////////////////
 

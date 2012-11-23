@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 	<head>
 		<style type="text/css">
-			.capitaine div{
-				width: 50px;
-			}
-			.capitaine .tete{
-				background: red;
-				height: 50px;
+			.capitaine{
+				width: 144px;
+				height: 180px;
+				background: url(img/capitaine.png) no-repeat;
+				position: relative;
 			}
 			.capitaine .barbe{
-				background: grey;
+				position: absolute;
+				width: 64px;
+				top: 82px;
+				left: 42px;
+				background: url(img/barbe.png) repeat-y;
 				-webkit-transition: all 1s;
 				-moz-transition: all 1s;
 				-o-transition: all 1s;
@@ -17,8 +20,6 @@
 				transition: all 1s;
 			}
 			.capitaine .finBarbe{
-				background: black;
-				height: 20px;
 			}
 		</style>
 	</head>

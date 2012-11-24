@@ -1,24 +1,16 @@
 var App = {};
 
-var file1 = new FileModel({
-	path: '/machin',
-	file: 'truc.js'
-});
+App.start = function(nb){
+	App.files = new FileCollection();
 
-var file2 = new FileModel({
-	path: '/machin/bidule',
-	file: 'chose.js'
-});
+	for (var i = 0; i < nb; i++) {
+		App.files.add({
+			name: 'file'+i+'.js',
+			size: Math.round(Math.random()*1000)
+		})
+	};
 
-var file3 = new FileModel({
-	path: '/machin/bidule',
-	file: 'stuff.js'
-});
+	var mainView = new FolderView({model: App.files});
 
-App.files = new FileCollection([file1, file2, file3]);
-
-console.log(App.files);
-
-var mainView = new FolderView({model: App.files});
-
-$('#ici').html(mainView.render().el);
+	$('#ici').html(mainView.render().el);
+};

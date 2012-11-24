@@ -1,0 +1,25 @@
+.capitaine{
+	width: 144px;
+	height: 180px;
+	background: url(../img/capitaine.png) no-repeat;
+	position: relative;
+}
+.capitaine .barbe{
+	position: absolute;
+	width: 64px;
+	top: 82px;
+	left: 42px;
+	background: url(../img/barbe.png) repeat-y;
+	-webkit-transition: all 1s;
+	-moz-transition: all 1s;
+	-o-transition: all 1s;
+	-ms-transition: all 1s;
+	transition: all 1s;
+}
+.capitaine .finBarbe{
+	position: absolute;
+	bottom: -17px;
+	background: url(../img/finBarbe.png) no-repeat;;
+	width: 64px;
+	height: 17px
+}

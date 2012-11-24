@@ -1,4 +1,6 @@
-var FolderView = Backbone.View.extend({
+App.Views = {};
+
+App.Views.FolderView = Backbone.View.extend({
 
   tagName: "table",
 
@@ -10,8 +12,9 @@ var FolderView = Backbone.View.extend({
     this.$el.empty();
 
     // pour chaque élément de la collection on ajoute une ligne
+    var that = this;
     this.model.each(function(item){
-      this.$el.append(new DocumentRowView({model: item}).render().el);
+      that.$el.append(new DocumentRowView({model: item}).render().el);
     });
 
     return this;
@@ -19,20 +22,45 @@ var FolderView = Backbone.View.extend({
 
 });
 
-var DocumentRowView = Backbone.View.extend({
+App.Views.DocumentRowView = Backbone.View.extend({
 
   tagName: "tr",
 
   className: "document-row",
 
   events: {
-    "click .icon":          "open",
-    "click .button.edit":   "openEditDialog",
-    "click .button.delete": "destroy"
+    "click .open": "open"
+  },
+
+  open: function(){
+    console.log(this.model);
   },
 
   render: function() {
-    this.$el.html('<td>'+this.model.path+'</td><td>'+this.model.size+'</td>')
+    this.$el.html('<td>'+this.model.get('name')+'</td><td>('+this.model.get('size')+' kb)</td><td><a class="open">open</a></td>')
+    return this;
+  }
+
+});
+
+// soit méthode pour repeupler la vue, soit unbinding
+App.Views.DocumentDetailsView = Backbone.View.extend({
+
+  tagName: "div",
+
+  className: "document-details",
+
+  events: {
+    "click .close": "close"
+  },
+
+  open: function(){
+    console.log(this.model);
+  },
+
+  render: function() {
+    this.$el.html('')
+    return this;
   }
 
 });

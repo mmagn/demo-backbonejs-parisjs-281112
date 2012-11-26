@@ -1,8 +1,9 @@
-.capitaine{
+div.capitaine{
 	width: 144px;
 	height: 180px;
 	background: url(../img/capitaine.png) no-repeat;
 	position: relative;
+	margin: auto;
 }
 .capitaine .barbe{
 	position: absolute;

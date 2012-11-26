@@ -5,20 +5,22 @@ var AwesomeLook = Backbone.View.extend({
 	},
 
 	majLaBarbe: function(){
-		console.log('maj');
 		this.$el.find('.barbe').css('height', this.model.get('age') * 4);
 	},
 
 	render: function(){
-		this.$el.html(_.template(this.options.template, {}));
+		this.$el.html('<div class="capitaine"><div class="barbe"><div class="finBarbe"></div></div></div>');
 		this.majLaBarbe();
 		return this;
 	}
 
 });
 
+
+
+var monCapitaine = new Capitaine({age:1});
 var awesomeLook = new AwesomeLook({
-	model: monCapitaine,
-	el: '#look',
-	template: '<div class="capitaine"><div class="barbe"><div class="finBarbe"></div></div></div>'
+	model: monCapitaine
 });
+$('#demoCapitaine').html(awesomeLook.render().el)
+

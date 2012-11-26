@@ -39,7 +39,7 @@
 
 				<section>
 					<h1>6 mois de Backbone en 20 minutes</h1>
-					<h3>Paris.js 28/11/12</h3>
+					<h3><span style="color: #DC4084">Paris.js</span> 28/11/12</h3>
 					<p>
 						<small><a href="">Simon Lehericey</a> && <a href="http://twitter.com/mmagn">Mathieu Magnin (@mmagn)</a></small>
 					</p>
@@ -119,9 +119,15 @@
 				<section>
 					<section>
 						<h2>6 mois après, ça marche encore ?</h2>
+					</section>
+					<section>
+						<p data-state="alert" style="color:white;">
+							NON
+						</p>
+					</section>
+					<section>
+						<h2>En fait si... :)</h2>
 						<ul>
-							<li class="fragment">NON</li>
-							<li class="fragment">mais SI</li>
 							<li class="fragment">TDD</li>
 							<li class="fragment">refacto, refacto, refacto...</li>
 							<li class="fragment">peu (pas?) de régression</li>
@@ -152,15 +158,22 @@ function linkify( selector ) {
 					</section>
 				</section>
 
-				<section data-state="alert">
-					<h2>Limites</h2>
-					<ul>
-						<li class="fragment">pas d'IOC</li>
-						<li class="fragment">pas de factorisation entre les routes</li>
-						<li class="fragment">pas de double binding automatique</li>
-						<li class="fragment">c'est en faisant n'importe quoi</li>
-						<li class="fragment">... qu'on fait n'importe quoi <small style='vertical-align: baseline' class="fragment">(trop de liberté ?)</small></li>
-					</ul>
+				<section>
+					<section data-state="alert">
+						<h2>Limites</h2>
+						<ul>
+							<li class="fragment">pas d'IOC (dependency injection)</li>
+							<li class="fragment">pas de factorisation entre les routes</li>
+							<li class="fragment">pas de double binding automatique</li>
+							<li class="fragment">trop de liberté ? C'est en faisant n'importe quoi...</li>
+						</ul>
+					</section>
+					<section>
+						<p>...qu'on fait n'importe quoi</p>
+					</section>
+					<section>
+						<h2><%= les templates %></h2>
+					</section>
 				</section>
 
 				<section>

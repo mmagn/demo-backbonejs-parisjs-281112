@@ -82,11 +82,11 @@
 						</ul>
 					</section>
 					<section>
-						<h2>Vs Angular</h2>
+						<h2>vs Angular</h2>
 						<ul>
 							<li class="fragment">Approche différente</li>
 							<li class="fragment">Moins mature à l'époque</li>
-							<li class="fragment">req IE8+</li>
+							<li class="fragment">req. IE8+</li>
 							<li class="fragment"><em>Si c'était à refaire...</em></li>
 						</ul>
 					</section>
@@ -180,13 +180,22 @@ function linkify( selector ) {
 						<p class="fragment">Ok c'est un cas extrême...</p>
 					</section>
 					<section>
-						<h2>Les Zombies</h2>
-						<p>Un model qui n'est plus affiché</p>
-						<p>Un model qui n'est plus affiché</p>
+						<h2>Les models <span style="color:#04B404">zombies</span></h2>
+						
+						<div id="zombiesList" style="float:left; width: 50%">
+						</div>						
+						<div id="zombieDetails" style="float:left; width: 50%"></div>
+					</section>
+					<section>
+						<h2>Késkispass</h2>
+						<p>Lors de la construction de la vue Details, Backbone bind l'event 
+							<em>change</em> sur l'élément <em>input</em> contenu dans son <em>el</em>
+							(http://backbonejs.org/#View-delegateEvents)</p>
 						<pre class="fragment"><code contenteditable>
-// exemple de code cracra 
+$('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
 					</code></pre>
-						<p class="fragment">Ok c'est un cas extrême...</p>
+					<p class="fragment"><em>#zombieDetails</em> n'est jamais détruit, les events ne sont jamais debindé ->
+						à change <em>change</em>, avalanche de callbacks</p>
 					</section>
 				</section>
 
@@ -269,8 +278,15 @@ function linkify( selector ) {
 		<script src="lib/underscore.js"></script>
 		<script src="lib/backbone.js"></script>
 		<script src="lib/revealjs/js/reveal.min.js"></script>
+
+		<!-- Intro sources -->
 		<script src="intro/sources.js"></script>
 		<script src="intro/awesomeCapitaineLook.js"></script>
+
+		<!-- Zombies sources -->
+		<script src="ghostviews/models.js"></script>
+		<script src="ghostviews/views.js"></script>
+		<script src="ghostviews/app.js"></script>
 
 		<script>
 

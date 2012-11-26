@@ -6,7 +6,8 @@ App.Views.FolderView = Backbone.View.extend({
   tagName: "table",
 
   render: function() {
-    this.$el.empty();
+    this.$el.html('<h4>Listview <small>#zombiesList</small></h4>');
+    this.$el.append('<tr><td><b>cid</b></td><td><b>filename</b></td></tr>');
 
     var that = this;
     this.model.each(function(item){
@@ -31,21 +32,20 @@ App.Views.DocumentRowView = Backbone.View.extend({
   },
 
   open: function(){
-    var detailView = new App.Views.DocumentDetailsView({model: this.model});
-    // detailView.render()
-    $('#details').html(detailView.render().el);
+    var detailView = new App.Views.DocumentDetailsView({model: this.model, el: $('#zombieDetails')});
+    detailView.render()
+    // var detailView = new App.Views.DocumentDetailsView({model: this.model});
+    // $('#zombieDetails').html(detailView.render().el);
   },
 
   render: function() {
-    this.$el.html('<td>'+this.model.get('name')+'</td><td>('+this.model.get('size')+' kb)</td>')
+    this.$el.html('<td>'+this.model.cid+'</td><td>'+this.model.get('name')+'</td>')
     return this;
   }
 
 });
 
 App.Views.DocumentDetailsView = Backbone.View.extend({
-
-  // el: $('#details'),
 
   events: {
     "change input": "changeName"
@@ -57,7 +57,8 @@ App.Views.DocumentDetailsView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html('<h3>Details</h3><input value="'+this.model.get('name')+'"/>')
+    this.$el.html('<h4>DetailView <small>#zombieDetails</small></h4>');
+    this.$el.append('<input style="font-size:1em" value="'+this.model.get('name')+'"/>')
     return this;
   }
 

@@ -15,7 +15,9 @@
 
 		<link rel="stylesheet" href="lib/revealjs/css/reveal.min.css">
 		<link rel="stylesheet" href="lib/revealjs/css/theme/night.css" id="theme">
+		<link rel="stylesheet" href="lib/revealjs/css/zenburn.css">
 		<link rel="stylesheet" href="intro/css/style.css" >
+
 
 
 		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
@@ -46,10 +48,10 @@
 				<section>
 					<h2>Plan</h2>
 					<ul>
-						<li>Backbone ?</li>
-						<li>POC</li>
-						<li>Archi</li>
-						<li>Limites</li>
+						<li class="fragment">Backbone ?</li>
+						<li class="fragment">POC</li>
+						<li class="fragment">Archi</li>
+						<li class="fragment">Limites</li>
 					</ul>
 				</section>
 
@@ -62,17 +64,30 @@
 						</p>
 					</section>
 					<section>
-						<h2>Résumé</h2>
+						<h3>Contexte</h3>
 						<ul>
-							<li>Trop de logique client</li>
-							<li>...</li>
+							<li class="fragment">Refonte site internet</li>
+							<li class="fragment">Agile</li>
+							<li class="fragment">Back: C#, MVC3</li>
+							<li class="fragment"><span class="fragment fade-out">IE7+</span></li>
+							<li class="fragment">IE8+</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Demandes</h3>
+						<ul>
+							<li class="fragment">UI réactive</li>
+							<li class="fragment">Trop de logique client</li>
+							<li class="fragment">...</li>
 						</ul>
 					</section>
 					<section>
 						<h2>Vs Angular</h2>
 						<ul>
-							<li>Approche différente</li>
-							<li>Moins mature à l'époque</li>
+							<li class="fragment">Approche différente</li>
+							<li class="fragment">Moins mature à l'époque</li>
+							<li class="fragment">req IE8+</li>
+							<li class="fragment"><em>Si c'était à refaire...</em></li>
 						</ul>
 					</section>
 				</section>
@@ -81,8 +96,13 @@
 					<section>
 						<h2>POC</h2>
 						<p>
-							Des models et des vues.<br/>
-							Tuto
+							Backbone pour les nuls: des models et des vues.
+						</p>
+					</section>
+					<section>
+						<h2></h2>
+						<p>
+							CapitaineCapitaineCapitaineCapitaine
 						</p>
 					</section>
 					<section>
@@ -97,19 +117,49 @@
 				</section>
 
 				<section>
-					<h2>Archi</h2>
-					<ul>
-						<li>TDD</li>
-						<li>injection, injection, injection...</li>
-					</ul>
+					<section>
+						<h2>6 mois après, ça marche encore ?</h2>
+						<ul>
+							<li class="fragment">NON</li>
+							<li class="fragment">mais SI</li>
+							<li class="fragment">TDD</li>
+							<li class="fragment">refacto, refacto, refacto...</li>
+							<li class="fragment">peu (pas?) de régression</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Archi TDD Based</h2>
+						<p>
+							Injection !
+						</p>
+						<pre><code contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) ) {
+        node.className += ' roll';
+      }
+    };
+  }
+}
+					</code></pre>
+					</section>
 				</section>
 
 				<section data-state="alert">
 					<h2>Limites</h2>
 					<ul>
-						<li>pas d'IOC</li>
-						<li>pas de factorisation entre les routes</li>
-						<li>pas de double binding automatique</li>
+						<li class="fragment">pas d'IOC</li>
+						<li class="fragment">pas de factorisation entre les routes</li>
+						<li class="fragment">pas de double binding automatique</li>
+						<li class="fragment">c'est en faisant n'importe quoi</li>
+						<li class="fragment">... qu'on fait n'importe quoi <small style='vertical-align: baseline' class="fragment">(trop de liberté ?)</small></li>
 					</ul>
 				</section>
 
@@ -185,6 +235,7 @@
 
 		<!--<script src="lib/js/head.min.js"></script>-->
 		<script src="lib/revealjs/js/reveal.min.js"></script>
+		<script src="lib/revealjs/js/head.min.js"></script>
 
 
 		<script src="lib/jquery-1.8.3.js"></script>
@@ -208,15 +259,15 @@
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
 
 				// Optional libraries used to extend on reveal.js
-				/*dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				dependencies: [
+				/*	{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },*/
+					{ src: 'lib/revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } } /*,
 					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
 					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
-				]*/
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }*/
+				]
 			});
 
 		</script>

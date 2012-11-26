@@ -1,4 +1,3 @@
-var App = {};
 
 App.start = function(nb){
 	App.files = new FileCollection();
@@ -10,7 +9,9 @@ App.start = function(nb){
 		})
 	};
 
-	var mainView = new FolderView({model: App.files});
+	var mainView = new App.Views.FolderView({model: App.files});
 
 	$('#ici').html(mainView.render().el);
 };
+
+App.start(20);

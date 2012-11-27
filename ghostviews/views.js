@@ -6,7 +6,6 @@ App.Views.FolderView = Backbone.View.extend({
   tagName: "table",
 
   render: function() {
-    this.$el.html('<h4>Listview <small>#zombiesList</small></h4>');
     this.$el.append('<tr><td><b>cid</b></td><td><b>filename</b></td></tr>');
 
     var that = this;
@@ -34,8 +33,8 @@ App.Views.DocumentRowView = Backbone.View.extend({
   open: function(){
     var detailView = new App.Views.DocumentDetailsView({model: this.model, el: $('#zombieDetails')});
     detailView.render()
-    // var detailView = new App.Views.DocumentDetailsView({model: this.model});
-    // $('#zombieDetails').html(detailView.render().el);
+    /*var detailView = new App.Views.DocumentDetailsView({model: this.model});
+    $('#zombieDetails').html(detailView.render().el);*/
   },
 
   render: function() {

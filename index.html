@@ -48,7 +48,7 @@
 				<section>
 					<h2>Plan</h2>
 					<ul>
-						<li>Backbone ?</li>
+						<li>Pourquoi Backbone ?</li>
 						<li>Y'a quoi dedans ?</li>
 						<li>180 jours plus tard.</li>
 						<li>Alors, heureux ?</li>
@@ -58,15 +58,13 @@
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
-						<h2>Backbone ?</h2>
-						<p>
-							<a target='_blank' href='http://elgeneralcms/'>demo</a>	
-						</p>
+						<h2>Pourquoi Backbone ?</h2>
 					</section>
 					<section>
 						<h3>Contexte</h3>
 						<ul>
 							<li>Refonte site internet</li>
+							<li>4/5 devs</li>
 							<li>Agile</li>
 							<li>Back: C#, MVC3</li>
 							<li><span class="fragment fade-out">IE7+</span></li>
@@ -86,6 +84,9 @@
 							<li>req. IE8+</li>
 							<li class="fragment"><em>Si c'était à refaire...</em></li>
 						</ul>
+					</section>
+					<section>
+							<h2><a target='_blank' href='http://elgeneralcms/'>DEMO</a></h2>
 					</section>
 				</section>
 
@@ -137,12 +138,12 @@
 					<section>
 						<h2>En fait non ... :)</h2>
 						<ul>
-							<li class="fragment">Parce que le PO follows Paul Irish</li>
+							<li class="fragment"><small style="vertical-align: baseline">Parce que le PO follows <span style="color: #71BCFF">@paul_irish</span></small></li>
 							<li class="fragment">et qu'on a fait du TDD</li>
 							<li class="fragment">du coup on a peu (pas?) de régression</li>
 							<li class="fragment">mais l'archi est pas immédiate</li>
 						</ul>
-						<p class="fragment" style="color: #DC4084">La voici en cadeau !</p>
+						<p class="fragment" style="color: #DC4084">Voici celle qui a emmergé chez nous</p>
 					</section>
 
 					<section>
@@ -163,7 +164,7 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 					<section>
 						<h2>
 							Le routeur appelle une vue,
-							<small>qui contient une vue,
+							<small style="vertical-align: baseline">qui contient une vue,
 							<small style="vertical-align: baseline">qui contient une vue ...</small></small>
 						</h2>
 						<p>
@@ -176,6 +177,72 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 							En prod on a donc besoin d'une partie de notre code qui lie,<br/>DOM <-> templates <-> vues,<br/>JSON <-> Models
 						</p>
 					</section>
+					<section>
+						<h2>Et concrètement?</h2>
+						<div class="fragment">
+							<p>module.js, le fichier de liaison de notre module</p>
+							<pre>
+								<code contenteditable>
+var options = {
+    $container: $('#arbitrageContainer'),
+    ...
+};
+
+options.templates = {
+    $petitPoucetTemplate: $('#petitPoucetTemplate').html(),
+    ...
+    $ajouterSupportsTemplate: $('#ajouterSupportsTemplate').html()
+};
+
+options.models = {
+    contrat: LG.arbitrage.contrat,
+    ...
+    repartitionActuelle: LG.arbitrage.repartitionActuelle
+};
+
+// Initiate the router
+var arbitrageRouter = new LG.arbitrage.ArbitrageRouter(options);
+// Start Backbone history a neccesary step for bookmarkable URL's
+Backbone.history.start();
+								</code>
+							</pre>
+						</div>
+					</section>
+					<section>
+						<h2>Au routeur de bosser</h2>
+						<div >
+							<pre>
+								<code contenteditable>
+LG.arbitrage.ArbitrageRouter = Backbone.Router.extend({
+    initialize: function (options) {
+        this.options = options;
+        this.initializeAllViews();
+    },
+
+    routes: {
+        "recapitulatif": "recapitulatif",
+        ...
+        "*actions": "choixDuContrat" //route par default
+    },
+
+    initializeAllViews: function () {
+        this.petitPoucetView = new LG.arbitrage.VersementAvancementView({
+            template: this.options.templates.$petitPoucetTemplate,
+            el: this.options.$container.find('#petitPoucetContainer')
+        });
+        ...
+        this.desinvestissementView = new LG.arbitrage.DesinvestissementView({
+            templates: this.options.templates,
+            el: this.options.$container.find('#desinvestissementContainer'),
+            models: options.models,
+            popoverAvance: this.options.popoverAvance
+        });
+	...
+});
+								</code>
+							</pre>
+						</div>
+					</section>
 				</section>
 
 				<section>
@@ -183,7 +250,7 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 					<section data-state="alert">
 						<h2>Tout n'est pas rose</h2>
 						<ul>
-							<li class="fragment">pas d'IOC (dependency injection)</li>
+							<li class="fragment">pas d'injection de dépendances</li>
 							<li class="fragment">pas de factorisation entre les routes</li>
 							<li class="fragment">pas de double binding automatique</li>
 							<li class="fragment">trop de liberté ? C'est en faisant n'importe quoi...</li>
@@ -195,7 +262,7 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 					</section>
 					
 					<section>
-						<h2>1) Ne touche pas au DOM</h2>
+						<h2>1) Ne touche pas à mon &#60;body&#62;</h2>
 						<p>Malheureux...</p>
 						<pre><code contenteditable>
 render: function() {
@@ -206,30 +273,83 @@ render: function() {
 					</section>
 					
 					<section>
-						<h2>2) <%= les templates %></h2>
+						<h2>3) <%= les templates %></h2>
 						<p>Les balises <% et %> permettent d'éxecuter du js</p>
 						<p class="fragment">Il n'y a pas pire que de debugguer un template</p>
 						<p class="fragment">Pas facile à tester</p>
-						<p class="fragment">La solution: déporter la complexité dans les views ou models</p>
 					</section>
 					
 					<section>
-						<h2>Les models <span style="color:#04B404">zombies</span></h2>
+						<h2>2) Les models <span style="color:#04B404">zombies</span></h2>
 						
 						<div id="zombiesList" style="float:left; width: 50%">
 						</div>						
 						<div id="zombieDetails" style="float:left; width: 50%"></div>
 					</section>
 					<section>
-						<h2>Késkispass</h2>
-						<p>Lors de la construction de la vue Details, Backbone bind l'event 
-							<em>change</em> sur l'élément <em>input</em> contenu dans son <em>el</em>
-							(http://backbonejs.org/#View-delegateEvents)</p>
-						<pre class="fragment"><code contenteditable>
-$('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
-					</code></pre>
-					<p class="fragment"><em>#zombieDetails</em> n'est jamais détruit, les events ne sont jamais debindé ->
-						à chaque <em>change</em>, avalanche de callbacks</p>
+						<h2>Regardons ce bug au ralenti</h2>
+						<p>Initialisation de la vue, son el fourni est un élément du &#60;body&#62;</p>
+						<p>La view écoute les événements sur l'input avec la fonction <a href="http://api.jquery.com/delegate/">$.delegate</a></p>
+						<p class="fragment"><em>Description: Attach a handler to one or more events for all elements that match the selector, <strong>now or in the future</strong>, based on a specific set of root elements.</em></p>
+						<ul class="fragment">
+							<li>one or more events : change</li>
+							<li>the selector : input</li>
+							<li>set of root elements : this.el == $('#zombieDetails')</li>
+						</ul>
+					</section>
+					<section>
+						<p>
+							A chaque 
+						</p>
+					</section>
+					
+					<section>
+						<h2>La solution</span></h2>
+						<p>Déporter la "complexité" dans les views ou models</p>
+						<pre><code contenteditable>
+LG.Models.SupportRepartition = Backbone.Model.extend({
+    
+    ...
+
+    montantAffiche: function () {
+        return Globalize.format(this.get('montant'), "n2", LG.culture);
+    },
+
+    pourcentageAffiche: function () {
+        return Globalize.format(this.get('pourcentage') * 100, "n2", LG.culture);
+    },
+
+    ...
+});
+						</code></pre>
+					</section>
+					
+					
+					<section>
+						<h2>4) Négliger la liaison back/front</h2>
+						<p>Ne pas oublier de tester le matching back/front des propriétés des models</p>
+						<div class="fragment">
+							<p>Une fois en place ça simplifie la vie:</p>
+							<pre>
+								<code contenteditable>
+LG.arbitrage.contratsEligibles = new LG.arbitrage.ContratCollection(@Html.Raw(Json.Encode(Model.contratsEligiblesJson)));
+								</code>
+							</pre>
+						</div>
+					</section>
+					
+					<section>
+						<h2>Côté tests C# ça donne quoi</h2>
+						<pre>
+							<code contenteditable>
+/*on verifie que l object JSON a exactement les proprietes du mm nom que les proprietes de l objet backbone*/
+var supportRepartition = new SupportRepartitionJSON();
+
+Assert.IsNotNull(supportRepartition.GetType().GetProperty("id"));
+Assert.IsNotNull(supportRepartition.GetType().GetProperty("nom"));
+							</code>
+						</pre>
+						<p>Crucial pour éviter un refacto dévastateur d'un collègue</p>
 					</section>
 				</section>
 
@@ -251,8 +371,8 @@ $('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
 
 				<section>
 					<h1>En savoir plus :</h1>
-					<p>le futur de Backbone</p>
-					<p>Jasmine</p>
+					<p><a href="http://dailyjs.com/2012/11/22/backbone-updates/">http://dailyjs.com/2012/11/22/backbone-updates/</a></p>
+					<p><a href="http://pivotal.github.com/jasmine/">http://pivotal.github.com/jasmine/</a></p>
 				</section>
 
 				<section>

@@ -38,7 +38,7 @@
 			<div class="slides">
 
 				<section>
-					<h1>6 mois de Backbone en 20 minutes</h1>
+					<h1>6 mois de<br/>Backbone<br/>en 20 minutes</h1>
 					<h3><span style="color: #DC4084">Paris.js</span> 28/11/12</h3>
 					<p>
 						<small><a href="">Simon Lehericey</a> && <a href="http://twitter.com/mmagn">Mathieu Magnin (@mmagn)</a></small>
@@ -129,32 +129,41 @@
 						<h2>En fait si... :)</h2>
 						<ul>
 							<li class="fragment">TDD</li>
-							<li class="fragment">refacto, refacto, refacto...</li>
 							<li class="fragment">peu (pas?) de régression</li>
+							<li class="fragment">refacto, refacto, refacto...</li>
 						</ul>
 					</section>
 
 					<section>
 						<h2>Archi TDD Based</h2>
-						<p>
-							Injection !
-						</p>
+						<p>Une partie de notre logique se situe dans les vues</p>
+						<p>Pour les tester facilement on a besoin de pouvoir leur injecter au minimum:</p>
+						<ul>
+							<li>les templates</li>
+							<li>les models</li>
+						</ul>
 						<pre><code contenteditable>
-function linkify( selector ) {
-  if( supports3DTransforms ) {
-
-    var nodes = document.querySelectorAll( selector );
-
-    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
-      var node = nodes[i];
-
-      if( !node.className ) ) {
-        node.className += ' roll';
-      }
-    };
-  }
-}
-					</code></pre>
+this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
+    model: this.options.models.contrat,
+    template: this.options.templates.$recapContratTemplate
+});
+						</code></pre>
+					</section>
+					<section>
+						<h2>
+							Le routeur appelle une vue,
+							<small>qui contient une vue,
+							<small style="vertical-align: baseline">qui contient une vue ...</small></small>
+						</h2>
+						<p>
+							On injecte depuis le haut de la pile les objets, collections, models, nécéssaires à toutes les vues
+						</p>
+						<p>
+							Chaque element peut donc être facilement mocké: tests plus précis
+						</p>
+						<p>
+							En prod on a donc besoin d'une partie de notre code qui lie,<br/>DOM <-> templates <-> vues,<br/>JSON <-> Models
+						</p>
 					</section>
 				</section>
 

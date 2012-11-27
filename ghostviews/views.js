@@ -33,8 +33,8 @@ App.Views.DocumentRowView = Backbone.View.extend({
   open: function(){
     var detailView = new App.Views.DocumentDetailsView({model: this.model, el: $('#zombieDetails')});
     detailView.render()
-    /*var detailView = new App.Views.DocumentDetailsView({model: this.model});
-    $('#zombieDetails').html(detailView.render().el);*/
+    // var detailView = new App.Views.DocumentDetailsView({model: this.model});
+    // $('#zombieDetails').html(detailView.render().el);
   },
 
   render: function() {

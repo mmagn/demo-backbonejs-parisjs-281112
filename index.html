@@ -133,12 +133,10 @@
 					</section>
 					<section>
 						<h2>OUI</h2>
-						<p>j'ai masse de régression, en plus, le PO, il comprend rien au web, y'a pas d'Ergo... mon voisin code vraiment comme un pied, il parait <small style="vertical-align: bottom;">même qu'il a patché Jquery alors t'imagines pas comment je suis dans la ...</small></p>
 					</section>
 					<section>
 						<h2>En fait non ... :)</h2>
 						<ul>
-							<li class="fragment"><small style="vertical-align: baseline">Parce que le PO follows <span style="color: #71BCFF">@paul_irish</span></small></li>
 							<li class="fragment">et qu'on a fait du TDD</li>
 							<li class="fragment">du coup on a peu (pas?) de régression</li>
 							<li class="fragment">mais l'archi est pas immédiate</li>
@@ -147,7 +145,7 @@
 					</section>
 
 					<section>
-						<h2>Archi TDD Based</h2>
+						<h2>TDD Based Archi</h2>
 						<p>Une partie de notre logique se situe dans les vues</p>
 						<p>Pour les tester facilement on a besoin de pouvoir leur injecter au minimum:</p>
 						<ul>
@@ -270,16 +268,11 @@ render: function() {
 }
 						</code></pre>
 					<p class="fragment">intestable -> poubelle</p>
+					<p class="fragment">ça t'évitera le prochain bug</p>
 					</section>
-					
+
 					<section>
-						<h2>3) <%= les templates %></h2>
-						<p>Les balises <% et %> permettent d'éxecuter du js</p>
-						<p class="fragment">Il n'y a pas pire que de debugguer un template</p>
-						<p class="fragment">Pas facile à tester</p>
-					</section>
-					
-					<section>
+
 						<h2>2) Les models <span style="color:#04B404">zombies</span></h2>
 						
 						<div id="zombiesList" style="float:left; width: 50%">
@@ -288,19 +281,23 @@ render: function() {
 					</section>
 					<section>
 						<h2>Regardons ce bug au ralenti</h2>
-						<p>Initialisation de la vue, son el fourni est un élément du &#60;body&#62;</p>
+						<p>Initialisation de la vue, son <span>el</span> fourni est un élément du &#60;body&#62;</p>
 						<p>La view écoute les événements sur l'input avec la fonction <a href="http://api.jquery.com/delegate/">$.delegate</a></p>
-						<p class="fragment"><em>Description: Attach a handler to one or more events for all elements that match the selector, <strong>now or in the future</strong>, based on a specific set of root elements.</em></p>
-						<ul class="fragment">
-							<li>one or more events : change</li>
-							<li>the selector : input</li>
-							<li>set of root elements : this.el == $('#zombieDetails')</li>
-						</ul>
+						<pre><code contenteditable>
+delegateEvents: function(events) {
+  ...
+  this.$el.delegate(selector, eventName, method);
+},
+						</code></pre>
+
+						<p class="fragment"><em>jQuery doc: Attach a handler to one or more events for all elements that match the selector, <strong>now or in the future</strong>, based on a specific set of root elements.</em></p>
 					</section>
+					
 					<section>
-						<p>
-							A chaque 
-						</p>
+						<h2>3) <%= les templates %></h2>
+						<p>Les balises <% et %> permettent d'éxecuter du js</p>
+						<p class="fragment">Il n'y a pas pire que de debugguer un template</p>
+						<p class="fragment">Pas facile à tester</p>
 					</section>
 					
 					<section>
@@ -339,16 +336,16 @@ LG.arbitrage.contratsEligibles = new LG.arbitrage.ContratCollection(@Html.Raw(Js
 					</section>
 					
 					<section>
-						<h2>Côté tests C# ça donne quoi</h2>
+						<h2>Côté tests <strong>C#</strong> ça donne quoi</h2>
 						<pre>
 							<code contenteditable>
-/*on verifie que l object JSON a exactement les proprietes du mm nom que les proprietes de l objet backbone*/
-var supportRepartition = new SupportRepartitionJSON();
+SupportRepartitionJSON supportRepartition = new SupportRepartitionJSON();
 
 Assert.IsNotNull(supportRepartition.GetType().GetProperty("id"));
 Assert.IsNotNull(supportRepartition.GetType().GetProperty("nom"));
 							</code>
 						</pre>
+						<p>Permet de s'assurer de la correspondance des nom de propriétés</p>
 						<p>Crucial pour éviter un refacto dévastateur d'un collègue</p>
 					</section>
 				</section>

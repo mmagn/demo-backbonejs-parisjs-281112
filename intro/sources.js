@@ -2,12 +2,13 @@ var Capitaine = Backbone.Model.extend({});
 
 var View = Backbone.View.extend({
 
+
 /*
 	render: function(){
 		this.$el.html('<span class="age">' + this.model.get('age') + ' ans</span>');
 		return this;
 	},
-*/
+
 
 
 	initialize: function(){
@@ -35,7 +36,7 @@ var View = Backbone.View.extend({
 		this.model.set('age', age);
 	},	
 
-
+*/
 });
 
 

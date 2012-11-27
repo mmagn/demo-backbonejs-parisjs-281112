@@ -5,20 +5,6 @@
   <title>Jasmine Spec Runner</title>
   <meta charset="utf-8" />
 
-  <script type="text/javascript">
-      //object global
-      LG = {
-          culture: "fr-FR"
-      };
-
-      LG.smartScroller = {
-          scrollSiBesoin: function () { }
-      };
-
-      //fichier google
-      _gaq = { push: function () { } }
-  </script>
-
   <link rel="shortcut icon" type="image/png" href="../../lib/jasmine-1.2.0/jasmine_favicon.png" />
   <link rel="stylesheet" type="text/css" href="../../lib/jasmine-1.2.0/jasmine.css" />
 
@@ -36,11 +22,11 @@
 
 
   <script type="text/javascript">
-      (function () {
+      $(function () {
           var jasmineEnv = jasmine.getEnv();
           jasmineEnv.updateInterval = 1000;
 
-          var htmlReporter = new jasmine.HtmlReporter();
+          var htmlReporter = new jasmine.HtmlReporter(null, $('#HTMLReporter2'));
 
           jasmineEnv.addReporter(htmlReporter);
 
@@ -61,11 +47,12 @@
               jasmineEnv.execute();
           }
 
-      })();
+      });
   </script>
 
 </head>
 
 <body>
+  <div id="HTMLReporter2" style="width: 400px;" class="jasmine_reporter"></div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-var AwesomeLook = Backbone.View.extend({
+var AwesomeView = Backbone.View.extend({
 
 	initialize: function(){
 		this.model.on('change', this.majLaBarbe, this); // on bind la fonction de rendu sur les changements du model
@@ -15,12 +15,3 @@ var AwesomeLook = Backbone.View.extend({
 	}
 
 });
-
-
-
-var monCapitaine = new Capitaine({age:1});
-var awesomeLook = new AwesomeLook({
-	model: monCapitaine
-});
-$('#demoCapitaine').html(awesomeLook.render().el)
-

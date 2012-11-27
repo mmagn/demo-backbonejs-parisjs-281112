@@ -1,50 +1,40 @@
-describe('l affichage de l age du capitaine', function(){
 
-	var monCapitaine,
-		superView;
+//describe('la view du capitaine', function(){
 
-	beforeEach(function(){
-		monCapitaine = new Capitaine({age:10});
-		superView = new MaView({model: monCapitaine});
+/*Mon age
+	it('affiche son age', function(){
+		var capitaine = new Capitaine({age: 15});
+		var view = new View({model: capitaine});
+		view.render();
 
+		expect(view.$el.find('.age').html()).toBe("15 ans");
 	});
+*/
 
-	it('affiche 10 quand le capitaine a 10 ans', function(){
-		superView.render();
+/*Mon age actualise
+	it('actualise l affichage si son age change', function(){
+		var capitaine = new Capitaine({age: 15});
+		var view = new View({model: capitaine});
+		view.render();
 
-		//expect($('#age').html()).toEqual('10');
-
-		expect(superView.$el.html()).toEqual('10');
-	});	
-
-	it('si on modifie l age du capitaine la vue change', function(){
-		superView.render();
-		//expect($('#age').html()).toEqual('10');
-
-		monCapitaine.set('age', 88);
-
-		expect(superView.$el.html()).toEqual('88');
-	});	
-});
-
-describe('la saisie de l age du capitaine', function(){
-
-	var monCapitaine,
-		superView;
-
-	var template = '<p><input/><span id="age"></span></p>'
-
-	beforeEach(function(){
-		monCapitaine = new Capitaine({age:10});
-		superView = new MaView({
-			model: monCapitaine,
-			template: template
-		});
-
+		capitaine.set('age', 45);
+		expect(view.$el.find('.age').html()).toBe("45 ans");
 	});
+*/
 
-	it('se fait dans une textbox', function(){
-		expect(monCapitaine.get('age')).toEqual(200);
+/*Change mon Age
+	it('actualise le model a partir de la vue', function(){
+		var capitaine = new Capitaine({age: 15});
+		var view = new View({model: capitaine});
+		var $el = view.render().$el;
+
+		$input = $el.find('input');
+		expect($input.length).toBe(1);
+		
+		$input.val('42');
+		$input.change();
+
+		expect(capitaine.get('age')).toBe('42');
 	});
-
-});
+*/
+//})

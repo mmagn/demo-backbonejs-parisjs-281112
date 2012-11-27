@@ -1,4 +1,4 @@
-body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
+/*body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }*/
 
 #HTMLReporter { font-size: 11px; font-family: Monaco, "Lucida Console", monospace; line-height: 14px; color: #333333; }
 #HTMLReporter a { text-decoration: none; }
@@ -7,7 +7,7 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 #HTMLReporter .banner, #HTMLReporter .symbolSummary, #HTMLReporter .summary, #HTMLReporter .resultMessage, #HTMLReporter .specDetail .description, #HTMLReporter .alert .bar, #HTMLReporter .stackTrace { padding-left: 9px; padding-right: 9px; }
 #HTMLReporter #jasmine_content { position: fixed; right: 100%; }
 #HTMLReporter .version { color: #aaaaaa; }
-#HTMLReporter .banner { margin-top: 14px; }
+#HTMLReporter .banner { margin-top: 14px; display: none; }
 #HTMLReporter .duration { color: #aaaaaa; float: right; }
 #HTMLReporter .symbolSummary { overflow: hidden; *zoom: 1; margin: 14px 0; }
 #HTMLReporter .symbolSummary li { display: block; float: left; height: 7px; width: 14px; margin-bottom: 7px; font-size: 16px; }
@@ -43,7 +43,7 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 #HTMLReporter .summary .specSummary.failed a { color: #b03911; }
 #HTMLReporter .description + .suite { margin-top: 0; }
 #HTMLReporter .suite { margin-top: 14px; }
-#HTMLReporter .suite a { color: #333333; }
+#HTMLReporter .suite a { color: #EEE; }
 #HTMLReporter #details .specDetail { margin-bottom: 28px; }
 #HTMLReporter #details .specDetail .description { display: block; color: white; background-color: #b03911; }
 #HTMLReporter .resultMessage { padding-top: 14px; color: #333333; }

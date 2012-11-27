@@ -94,24 +94,38 @@
 
 				<section>
 					<section>
-						<h2>POC</h2>
-						<p>
-							Backbone pour les nuls: des models et des vues.
-						</p>
+						<h2>Y'a quoi dedans ?</h2>
+						<ul>
+							<li>
+								model.get('property'), model.set('property', val)<br />
+								Models et Collections: implementent le pattern observable
+							</li>
+							<li>
+								View: possede son noeud el, écoute sur les evenements sur le dom. 
+							</li>
+							<li>
+								Router: écoute les changements d url
+							</li>
+						</ul>
 					</section>
+
 					<section>
-						<h2></h2>
-						<p>
-							CapitaineCapitaineCapitaineCapitaine
-						</p>
-					</section>
-					<section>
-						<h2>Capitaine</h2>
-						<p>
-							<label for="ageDuCapitaine">Quel est l'âge du capitaine ?</label>
-							<input id="ageDuCapitaine"/>
-						</p>
-						<div id="demoCapitaine" style='margin:auto'>
+						<h2>on veut une demo !</h2>
+						<style>
+							#capitaine input{
+								vertical-align: middle;
+							}
+						</style>
+						<div style="width: 50%; ; float: left; ">
+							<p style="text-align: left">&#60;div id="capitaine"&#62;</p>
+
+							<div id="capitaine" style="height: 300px; border: 1px solid grey"></div>
+							
+							<p style="text-align: right">&#60;/div&#62;</p>
+						</div>
+						<div style="width: 50%; float: right; overflow: hidden;">
+							<p style="text-align: right">Tests</p>
+							<div id="capitaineRunner" style="height: 300px; border: 1px solid grey"></div>
 						</div>
 					</section>
 				</section>
@@ -229,7 +243,7 @@ $('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
 		<script src="lib/backbone.js"></script>
 		<script src="lib/revealjs/js/reveal.min.js"></script>
 
-		<!-- Intro sources -->
+
 		<script src="intro/sources.js"></script>
 		<script src="intro/awesomeCapitaineLook.js"></script>
 
@@ -264,6 +278,39 @@ $('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
 			});
 
 		</script>
+
+		 <!-- Jasmine -->
+  		<link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css" />
+  		<script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
+  		<script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
+  		<script type="text/javascript" src="intro/spec/etape1Spec.js"></script>
+		<script type="text/javascript">
+      (function () {
+          var jasmineEnv = jasmine.getEnv();
+          jasmineEnv.updateInterval = 1000;
+
+          var htmlReporter = new jasmine.HtmlReporter(null, $('#capitaineRunner'));
+
+          jasmineEnv.addReporter(htmlReporter);
+
+          jasmineEnv.specFilter = function (spec) {
+              return htmlReporter.specFilter(spec);
+          };
+
+          var currentWindowOnload = window.onload;
+
+          window.onload = function () {
+              if (currentWindowOnload) {
+                  currentWindowOnload();
+              }
+              execJasmine();
+          };
+          function execJasmine() {
+              jasmineEnv.execute();
+          }
+
+      })();
+  </script>
 
 	</body>
 </html>

@@ -48,10 +48,10 @@
 				<section>
 					<h2>Plan</h2>
 					<ul>
-						<li class="fragment">Backbone ?</li>
-						<li class="fragment">POC</li>
-						<li class="fragment">Archi</li>
-						<li class="fragment">Limites</li>
+						<li>Backbone ?</li>
+						<li>Y'a quoi dedans ?</li>
+						<li>180 jours plus tard.</li>
+						<li>Alors, heureux ?</li>
 					</ul>
 				</section>
 
@@ -66,27 +66,24 @@
 					<section>
 						<h3>Contexte</h3>
 						<ul>
-							<li class="fragment">Refonte site internet</li>
-							<li class="fragment">Agile</li>
-							<li class="fragment">Back: C#, MVC3</li>
-							<li class="fragment"><span class="fragment fade-out">IE7+</span></li>
+							<li>Refonte site internet</li>
+							<li>Agile</li>
+							<li>Back: C#, MVC3</li>
+							<li><span class="fragment fade-out">IE7+</span></li>
 							<li class="fragment">IE8+</li>
 						</ul>
 					</section>
 					<section>
 						<h3>Demandes</h3>
 						<ul>
-							<li class="fragment">UI réactive</li>
-							<li class="fragment">Trop de logique client</li>
-							<li class="fragment">...</li>
+							<li>UI réactive</li>
 						</ul>
 					</section>
 					<section>
-						<h2>vs Angular</h2>
+						<h2>pourquoi pas Angular ?</h2>
 						<ul>
-							<li class="fragment">Approche différente</li>
-							<li class="fragment">Moins mature à l'époque</li>
-							<li class="fragment">req. IE8+</li>
+							<li>Moins mature à l'époque (01/05/2012)</li>
+							<li>req. IE8+</li>
 							<li class="fragment"><em>Si c'était à refaire...</em></li>
 						</ul>
 					</section>
@@ -94,17 +91,16 @@
 
 				<section>
 					<section>
-						<h2>Y'a quoi dedans ?</h2>
+						<h2>Y'a quoi dedans Backbone?<br />en gros</h2>
 						<ul>
 							<li>
-								model.get('property'), model.set('property', val)<br />
 								Models et Collections: implementent le pattern observable
 							</li>
 							<li>
-								View: possede son noeud el, écoute sur les evenements sur le dom. 
+								View: possède son propre noeud, écoute sur les événements sur le dom. 
 							</li>
 							<li>
-								Router: écoute les changements d url
+								Router: écoute les changements d'url
 							</li>
 						</ul>
 					</section>
@@ -132,20 +128,21 @@
 
 				<section>
 					<section>
-						<h2>6 mois après, ça marche encore ?</h2>
+						<h2>180 jours plus tard...<br /><span class="fragment"> tu pleures ?</span></h2>
 					</section>
 					<section>
-						<p data-state="alert" style="color:white;">
-							NON
-						</p>
+						<h2>OUI</h2>
+						<p>j'ai masse de régression, en plus, le PO, il comprend rien au web, y'a pas d'Ergo... mon voisin code vraiment comme un pied, il parait <small style="vertical-align: bottom;">même qu'il a patché Jquery alors t'imagines pas comment je suis dans la ...</small></p>
 					</section>
 					<section>
-						<h2>En fait si... :)</h2>
+						<h2>En fait non ... :)</h2>
 						<ul>
-							<li class="fragment">TDD</li>
-							<li class="fragment">peu (pas?) de régression</li>
-							<li class="fragment">refacto, refacto, refacto...</li>
+							<li class="fragment">Parce que le PO follows Paul Irish</li>
+							<li class="fragment">et qu'on a fait du TDD</li>
+							<li class="fragment">du coup on a peu (pas?) de régression</li>
+							<li class="fragment">mais l'archi est pas immédiate</li>
 						</ul>
+						<p class="fragment" style="color: #DC4084">La voici en cadeau !</p>
 					</section>
 
 					<section>
@@ -182,8 +179,9 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 				</section>
 
 				<section>
+					<section><h2>Alors, Heureux ?</h2></section>
 					<section data-state="alert">
-						<h2>Limites</h2>
+						<h2>Tout n'est pas rose</h2>
 						<ul>
 							<li class="fragment">pas d'IOC (dependency injection)</li>
 							<li class="fragment">pas de factorisation entre les routes</li>
@@ -193,14 +191,28 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 					</section>
 					<section>
 						<p>...qu'on fait n'importe quoi</p>
+						<p class="fragment">Petite revue de ce qu'il ne faut pas faire.</p>
 					</section>
+					
 					<section>
-						<h2><%= les templates %></h2>
+						<h2>1) Ne touche pas au DOM</h2>
+						<p>Malheureux...</p>
+						<pre><code contenteditable>
+render: function() {
+	$('.contrat.montant').html(this.model.get('montant'));
+}
+						</code></pre>
+					<p class="fragment">intestable -> poubelle</p>
+					</section>
+					
+					<section>
+						<h2>2) <%= les templates %></h2>
 						<p>Les balises <% et %> permettent d'éxecuter du js</p>
 						<p class="fragment">Il n'y a pas pire que de debugguer un template</p>
 						<p class="fragment">Pas facile à tester</p>
 						<p class="fragment">La solution: déporter la complexité dans les views ou models</p>
 					</section>
+					
 					<section>
 						<h2>Les models <span style="color:#04B404">zombies</span></h2>
 						
@@ -219,6 +231,28 @@ $('#zombieDetails').delegate('input', 'change', callbackQuiModifieLeModel);
 					<p class="fragment"><em>#zombieDetails</em> n'est jamais détruit, les events ne sont jamais debindé ->
 						à chaque <em>change</em>, avalanche de callbacks</p>
 					</section>
+				</section>
+
+				<style>
+					#TakeAway strong{
+						color: green;
+						font-size: 1.5em;
+					}
+				</style>
+				<section id='TakeAway'>
+					<h1>Take Away</h1>
+					<ul>
+						<li>Je <strong>teste</strong>, sinon je suis mort sur le long terme.</li>
+						<li>Donc je <strong>découple</strong> mes views de mes templates/DOM</li>
+						<li><strong>J'utilise</strong> les propriétés <strong>'events'</strong> et <strong>'el'</strong> de mes views</li>
+						<li><strong>Je blinde</strong> mon binding avec le Back</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>En savoir plus :</h1>
+					<p>le futur de Backbone</p>
+					<p>Jasmine</p>
 				</section>
 
 				<section>

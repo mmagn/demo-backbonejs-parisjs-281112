@@ -48,8 +48,8 @@ $('#capitaine').html(view.render().$el);
 
 /*
 
-var superVue = new AwesomeView({model: capitaine});
-$('#capitaine').append(superVue.render().el);
+var awesomeView = new AwesomeView({model: capitaine});
+$('#capitaine').append(awesomeView.render().el);
 
 
 */

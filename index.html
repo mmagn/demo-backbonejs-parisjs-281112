@@ -64,17 +64,11 @@
 						<h3>Contexte</h3>
 						<ul>
 							<li>Refonte site internet</li>
-							<li>4/5 devs</li>
+							<li>4 devs (2 <a href="http://lgfrance.com">Legal & General</a> + 2 <a href="http://octo.com">Octo</a>)</li>
 							<li>Agile, TDD</li>
 							<li>Back: C#, MVC3</li>
 							<li><span class="fragment fade-out">IE7+</span></li>
 							<li class="fragment">IE8+</li>
-						</ul>
-					</section>
-					<section>
-						<h3>Demandes</h3>
-						<ul>
-							<li>UI réactive</li>
 						</ul>
 					</section>
 					<section>
@@ -92,13 +86,13 @@
 
 				<section>
 					<section>
-						<h2>Y'a quoi dedans Backbone?<br />en gros</h2>
+						<h2>Y'a quoi dedans Backbone?</h2>
 						<ul>
 							<li>
 								Models et Collections: implementent le pattern observable
 							</li>
 							<li>
-								View: possède son propre noeud, écoute sur les événements sur le dom. 
+								View: possède son propre noeud, écoute sur les événements sur celui ci. 
 							</li>
 							<li>
 								Router: écoute les changements d'url
@@ -129,7 +123,7 @@
 
 				<section>
 					<section>
-						<h2>180 jours plus tard...<br /><span class="fragment"> tu galères ?</span></h2>
+						<h2>180 jours plus tard...<br /> tu galères ?</h2>
 					</section>
 					<section>
 						<h2>OUI</h2>
@@ -144,10 +138,9 @@
 					</section>
 
 					<section>
-						<h2>TDD Based Archi</h2>
+						<h2>Archi</h2>
 						<div class="fragment">
-							<p>Découpe</p>
-							<p>Injecte</p>
+							<p>Tests -> Découpe -> Injection</p>
 						</div>
 					</section>
 					<section>
@@ -163,35 +156,31 @@
 						<p class="fragment">
 							Chaque element peut donc être facilement mocké: tests plus précis
 						</p>
-						<p class="fragment"><a target="_blank" href="archi2.png"> autre dessin tout aussi moche moche</a></p>
+						<p class="fragment"><a target="_blank" href="archi2.png"> autre dessin tout aussi moche</a></p>
 					</section>
 					<section>
 						<h2>Et concrètement?</h2>
-						<div class="fragment">
+						<div>
 							<p>module.js, le fichier de liaison de notre module</p>
 							<pre>
 								<code >
 var options = {
     $container: $('#arbitrageContainer'),
-    ...
 };
 
 options.templates = {
     $petitPoucetTemplate: $('#petitPoucetTemplate').html(),
-    ...
     $ajouterSupportsTemplate: $('#ajouterSupportsTemplate').html()
+    ...
 };
 
 options.models = {
     contrat: LG.arbitrage.contrat,
-    ...
     repartitionActuelle: LG.arbitrage.repartitionActuelle
+    ...
 };
 
-// Initiate the router
 var arbitrageRouter = new LG.arbitrage.ArbitrageRouter(options);
-// Start Backbone history a neccesary step for bookmarkable URL's
-Backbone.history.start();
 								</code>
 							</pre>
 						</div>
@@ -207,21 +196,12 @@ LG.arbitrage.ArbitrageRouter = Backbone.Router.extend({
         this.initializeAllViews();
     },
 
-    routes: {
-        "recapitulatif": "recapitulatif",
-        ...
-        "*actions": "choixDuContrat" //route par default
-    },
-
     initializeAllViews: function () {
-        this.petitPoucetView = new LG.arbitrage.VersementAvancementView({
+        this.petitPoucetView = new LG.arbitrage.PetitPoucetView({
             template: this.options.templates.$petitPoucetTemplate,
-            el: this.options.$container.find('#petitPoucetContainer')
         });
-        ...
         this.desinvestissementView = new LG.arbitrage.DesinvestissementView({
             templates: this.options.templates,
-            el: this.options.$container.find('#desinvestissementContainer'),
             models: options.models,
             popoverAvance: this.options.popoverAvance
         });
@@ -301,7 +281,7 @@ delegateEvents: function(events) {
 						<p class="fragment"><em>jQuery doc: Attach a handler to one or more events for all elements that match the selector, <strong>now or in the future</strong>, based on a specific set of root elements.</em></p>
 					</section>
 					<section>
-						<h2>Solution : touche pas à mon &#60;body&#62;</h2>
+						<h2>Solution : ne touche vraiment pas à mon &#60;body&#62;</h2>
 						<pre><code>
 var detailView = new App.Views.DocumentDetailsView({model: this.model});
 $('#zombieDetails').html(detailView.render().el);
@@ -312,46 +292,23 @@ $('#zombieDetails').html(detailView.render().el);
 						<h2>3) <%= les templates %></h2>
 						<p>Les balises <% et %> permettent d'éxecuter du js</p>
 						<p class="fragment">Il n'y a pas pire que de debugguer un template</p>
-						<p class="fragment">Pas facile à tester</p>
-					</section>
-					
-					<section>
-						<h2>La solution</span></h2>
-						<p>Déporter la "complexité" dans les views ou models</p>
+						<div class="fragment">
+						<p>Solution : déporter la "complexité" dans les views ou models</p>
 						<pre><code >
 LG.Models.SupportRepartition = Backbone.Model.extend({
-    
     ...
-
     montantAffiche: function () {
         return Globalize.format(this.get('montant'), "n2", LG.culture);
     },
-
-    pourcentageAffiche: function () {
-        return Globalize.format(this.get('pourcentage') * 100, "n2", LG.culture);
-    },
-
     ...
 });
-						</code></pre>
+						</code></pre></div>
 					</section>
-					
 					
 					<section>
 						<h2>4) Négliger la liaison back/front</h2>
 						<p>Ne pas oublier de tester le matching back/front des propriétés des models</p>
 						<div class="fragment">
-							<p>Une fois en place ça simplifie la vie:</p>
-							<pre>
-								<code >
-LG.arbitrage.contratsEligibles = new LG.arbitrage.ContratCollection(@Html.Raw(Json.Encode(Model.contratsEligiblesJson)));
-								</code>
-							</pre>
-						</div>
-					</section>
-					
-					<section>
-						<h2>Côté tests <strong>C#</strong> ça donne quoi</h2>
 						<pre>
 							<code >
 SupportRepartitionJSON supportRepartition = new SupportRepartitionJSON();
@@ -361,7 +318,7 @@ Assert.IsNotNull(supportRepartition.GetType().GetProperty("nom"));
 							</code>
 						</pre>
 						<p>Permet de s'assurer de la correspondance des nom de propriétés</p>
-						<p>Crucial pour éviter un refacto dévastateur d'un collègue</p>
+						<p>Crucial pour éviter un refacto dévastateur d'un collègue</p></div>
 					</section>
 				</section>
 
@@ -376,7 +333,7 @@ Assert.IsNotNull(supportRepartition.GetType().GetProperty("nom"));
 					<ul>
 						<li>Je <strong>teste</strong>, sinon je suis mort sur le long terme.</li>
 						<li>Donc je <strong>découple</strong> mes views de mes templates/DOM</li>
-						<li><strong>J'utilise</strong> les propriétés <strong>'events'</strong> et <strong>'el'</strong> de mes views</li>
+						<li>Je fais attention a mes <strong>el</strong></li>
 						<li><strong>Je blinde</strong> mon binding avec le Back</li>
 					</ul>
 				</section>

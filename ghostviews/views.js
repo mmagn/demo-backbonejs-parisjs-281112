@@ -56,7 +56,7 @@ App.Views.DocumentDetailsView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html('<h4>DetailView <small>#zombieDetails</small></h4>');
+    this.$el.html('<h4>DetailView</h4>');
     this.$el.append('<input style="font-size:1em" value="'+this.model.get('name')+'"/>')
     return this;
   }

@@ -41,3 +41,15 @@ var View = Backbone.View.extend({
 var capitaine = new Capitaine({age: 15});
 var view = new View({model: capitaine});
 $('#capitaine').html(view.render().$el);
+
+
+
+/*BONUS*/
+
+/*
+
+var superVue = new AwesomeView({model: capitaine});
+$('#capitaine').append(superVue.render().el);
+
+
+*/

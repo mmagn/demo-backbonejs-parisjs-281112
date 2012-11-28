@@ -65,7 +65,7 @@
 						<ul>
 							<li>Refonte site internet</li>
 							<li>4/5 devs</li>
-							<li>Agile</li>
+							<li>Agile, TDD</li>
 							<li>Back: C#, MVC3</li>
 							<li><span class="fragment fade-out">IE7+</span></li>
 							<li class="fragment">IE8+</li>
@@ -129,7 +129,7 @@
 
 				<section>
 					<section>
-						<h2>180 jours plus tard...<br /><span class="fragment"> tu pleures ?</span></h2>
+						<h2>180 jours plus tard...<br /><span class="fragment"> tu galères ?</span></h2>
 					</section>
 					<section>
 						<h2>OUI</h2>
@@ -137,27 +137,18 @@
 					<section>
 						<h2>En fait non ... :)</h2>
 						<ul>
-							<li class="fragment">et qu'on a fait du TDD</li>
+							<li class="fragment">parce qu'on a fait du TDD</li>
 							<li class="fragment">du coup on a peu (pas?) de régression</li>
 							<li class="fragment">mais l'archi est pas immédiate</li>
 						</ul>
-						<p class="fragment" style="color: #DC4084">Voici celle qui a emmergé chez nous</p>
 					</section>
 
 					<section>
 						<h2>TDD Based Archi</h2>
-						<p>Une partie de notre logique se situe dans les vues</p>
-						<p>Pour les tester facilement on a besoin de pouvoir leur injecter au minimum:</p>
-						<ul>
-							<li>les templates</li>
-							<li>les models</li>
-						</ul>
-						<pre><code contenteditable>
-this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
-    model: this.options.models.contrat,
-    template: this.options.templates.$recapContratTemplate
-});
-						</code></pre>
+						<div class="fragment">
+							<p>Découpe</p>
+							<p>Injecte</p>
+						</div>
 					</section>
 					<section>
 						<h2>
@@ -165,22 +156,21 @@ this.recapContratCibleView = new LG.arbitrage.RecapContratCibleView({
 							<small style="vertical-align: baseline">qui contient une vue,
 							<small style="vertical-align: baseline">qui contient une vue ...</small></small>
 						</h2>
+						<p><a target="_blank" href="archi.png">dessin tout moche</a></p>
 						<p>
 							On injecte depuis le haut de la pile les objets, collections, models, nécéssaires à toutes les vues
 						</p>
-						<p>
+						<p class="fragment">
 							Chaque element peut donc être facilement mocké: tests plus précis
 						</p>
-						<p>
-							En prod on a donc besoin d'une partie de notre code qui lie,<br/>DOM <-> templates <-> vues,<br/>JSON <-> Models
-						</p>
+						<p class="fragment"><a target="_blank" href="archi2.png"> autre dessin tout aussi moche moche</a></p>
 					</section>
 					<section>
 						<h2>Et concrètement?</h2>
 						<div class="fragment">
 							<p>module.js, le fichier de liaison de notre module</p>
 							<pre>
-								<code contenteditable>
+								<code >
 var options = {
     $container: $('#arbitrageContainer'),
     ...
@@ -210,7 +200,7 @@ Backbone.history.start();
 						<h2>Au routeur de bosser</h2>
 						<div >
 							<pre>
-								<code contenteditable>
+								<code >
 LG.arbitrage.ArbitrageRouter = Backbone.Router.extend({
     initialize: function (options) {
         this.options = options;
@@ -249,7 +239,6 @@ LG.arbitrage.ArbitrageRouter = Backbone.Router.extend({
 						<h2>Tout n'est pas rose</h2>
 						<ul>
 							<li class="fragment">pas d'injection de dépendances</li>
-							<li class="fragment">pas de factorisation entre les routes</li>
 							<li class="fragment">pas de double binding automatique</li>
 							<li class="fragment">trop de liberté ? C'est en faisant n'importe quoi...</li>
 						</ul>
@@ -262,7 +251,7 @@ LG.arbitrage.ArbitrageRouter = Backbone.Router.extend({
 					<section>
 						<h2>1) Ne touche pas à mon &#60;body&#62;</h2>
 						<p>Malheureux...</p>
-						<pre><code contenteditable>
+						<pre><code >
 render: function() {
 	$('.contrat.montant').html(this.model.get('montant'));
 }
@@ -274,6 +263,25 @@ render: function() {
 					<section>
 
 						<h2>2) Les models <span style="color:#04B404">zombies</span></h2>
+						<p>exemple simple</p>
+						<p>une listView</p>
+						<p>une detailView</p>
+						<pre  class="fragment"><code >
+...							
+events: {
+	"click": "open"
+},
+
+open: function(){
+	var detailView = new DocDetailsView({model: this.model, el: $('#zombieDetails')});
+	detailView.render()
+	...
+						</code></pre>
+					</section>
+
+					<section>
+
+						<h2>WAT</span></h2>
 						
 						<div id="zombiesList" style="float:left; width: 50%">
 						</div>						
@@ -283,7 +291,7 @@ render: function() {
 						<h2>Regardons ce bug au ralenti</h2>
 						<p>Initialisation de la vue, son <span>el</span> fourni est un élément du &#60;body&#62;</p>
 						<p>La view écoute les événements sur l'input avec la fonction <a href="http://api.jquery.com/delegate/">$.delegate</a></p>
-						<pre><code contenteditable>
+						<pre><code>
 delegateEvents: function(events) {
   ...
   this.$el.delegate(selector, eventName, method);
@@ -291,6 +299,13 @@ delegateEvents: function(events) {
 						</code></pre>
 
 						<p class="fragment"><em>jQuery doc: Attach a handler to one or more events for all elements that match the selector, <strong>now or in the future</strong>, based on a specific set of root elements.</em></p>
+					</section>
+					<section>
+						<h2>Solution : touche pas à mon &#60;body&#62;</h2>
+						<pre><code>
+var detailView = new App.Views.DocumentDetailsView({model: this.model});
+$('#zombieDetails').html(detailView.render().el);
+						</code></pre>
 					</section>
 					
 					<section>
@@ -303,7 +318,7 @@ delegateEvents: function(events) {
 					<section>
 						<h2>La solution</span></h2>
 						<p>Déporter la "complexité" dans les views ou models</p>
-						<pre><code contenteditable>
+						<pre><code >
 LG.Models.SupportRepartition = Backbone.Model.extend({
     
     ...
@@ -328,7 +343,7 @@ LG.Models.SupportRepartition = Backbone.Model.extend({
 						<div class="fragment">
 							<p>Une fois en place ça simplifie la vie:</p>
 							<pre>
-								<code contenteditable>
+								<code >
 LG.arbitrage.contratsEligibles = new LG.arbitrage.ContratCollection(@Html.Raw(Json.Encode(Model.contratsEligiblesJson)));
 								</code>
 							</pre>
@@ -338,7 +353,7 @@ LG.arbitrage.contratsEligibles = new LG.arbitrage.ContratCollection(@Html.Raw(Js
 					<section>
 						<h2>Côté tests <strong>C#</strong> ça donne quoi</h2>
 						<pre>
-							<code contenteditable>
+							<code >
 SupportRepartitionJSON supportRepartition = new SupportRepartitionJSON();
 
 Assert.IsNotNull(supportRepartition.GetType().GetProperty("id"));

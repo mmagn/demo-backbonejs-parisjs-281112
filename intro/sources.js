@@ -2,11 +2,10 @@ var Capitaine = Backbone.Model.extend({});
 
 var View = Backbone.View.extend({
 
-
 /*
 	render: function(){
-		this.$el.html('<span class="age">' + this.model.get('age') + ' ans</span>');
-		return this;
+	 	this.$el.html('<span class="age">' + this.model.get('age') + ' ans</span>');
+	 	return this;
 	},
 
 
@@ -35,11 +34,10 @@ var View = Backbone.View.extend({
 		var age = this.$el.find('input').val();
 		this.model.set('age', age);
 	},	
-
 */
 });
 
 
-var capitaine = new Capitaine({age: 20});
+var capitaine = new Capitaine({age: 15});
 var view = new View({model: capitaine});
 $('#capitaine').html(view.render().$el);

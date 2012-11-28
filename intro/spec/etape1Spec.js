@@ -1,6 +1,6 @@
 
 describe('la view du capitaine', function(){
-
+/*
 
 	it('affiche son age', function(){
 		var capitaine = new Capitaine({age: 15});
@@ -9,7 +9,6 @@ describe('la view du capitaine', function(){
 
 		expect(view.$el.find('.age').html()).toBe("15 ans");
 	});
-
 
 
 	it('actualise l affichage si son age change', function(){
@@ -36,5 +35,5 @@ describe('la view du capitaine', function(){
 
 		expect(capitaine.get('age')).toBe('42');
 	});
-
+*/	
 })
